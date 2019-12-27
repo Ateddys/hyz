@@ -6,12 +6,13 @@ import com.zj.util.ReadExcel;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 /**
- * @author : hyz
+ * @author : zj
  * @program : onecode
  * @description : 业务层
  * @date : 2019-12-27 08:41
@@ -19,11 +20,8 @@ import java.util.Map;
 @Service
 public class ClientExcelServiceImpl implements ClientExcelService {
 
+    @Resource
     private ClientExcelDao excelDao;
-
-    public ClientExcelServiceImpl(ClientExcelDao excelDao) {
-        this.excelDao = excelDao;
-    }
 
     /**
      * 读取文件，数据处理，转换实体，添加到数据库
@@ -45,9 +43,18 @@ public class ClientExcelServiceImpl implements ClientExcelService {
         //至此已经将excel中的数据转换到list里面了,接下来就可以操作list,可以进行保存到数据库,或者其他操作,
 
         new Thread(() -> {
-            for (Map<String, Object> user : userList) {
-                excelDao.save(user.get("name").toString(), Integer.parseInt(user.get("age").toString()), user.get("arre").toString());
+
+            for (Map<String, Object> map : userList) {
+                ClientStudent student = new ClientStudent();
+
+                student.setName(map.get("name").toString());
+                student.setAge(Integer.parseInt(map.get("age").toString()));
+                student.setArre(map.get("arre").toString());
+
+                excelDao.save(student);
+
             }
+
         }).start();
 
         if (userList != null && !userList.isEmpty()) {
@@ -62,8 +69,8 @@ public class ClientExcelServiceImpl implements ClientExcelService {
 
         long endTime = System.currentTimeMillis(); //获取结束时间
 
-        System.out.println(result+"------> 共： " + (endTime - startTime) + "ms");
-        return result+"------> 共： " + (endTime - startTime) + "ms";
+        System.out.println(result + "------> 共： " + (endTime - startTime) + "ms");
+        return result + "------> 共： " + (endTime - startTime) + "ms";
     }
 
     /**
@@ -72,6 +79,8 @@ public class ClientExcelServiceImpl implements ClientExcelService {
      * @return 集合对象
      */
     public List<ClientStudent> findAll() {
-        return excelDao.findAll();
+        List<ClientStudent> list = excelDao.findAll();
+        System.out.println(list);
+        return list;
     }
 }
