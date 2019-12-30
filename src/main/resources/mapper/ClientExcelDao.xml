@@ -4,15 +4,11 @@
 
 <mapper namespace="com.zj.dao.ClientExcelDao">
 
-    <select id="findAll" resultType="com.zj.entity.ClientStudent">
 
-        select * from client_student
+    <insert id="save" parameterType="com.zj.entity.ImportPer">
 
-    </select>
-
-    <insert id="save" parameterType="com.zj.entity.ClientStudent">
-
-        INSERT INTO client_student (name, age, arre)  VALUES (#{name}, #{age}, #{arre})
+        INSERT INTO big_group (roles,name,account,ondate,offdate)
+        VALUES (#{roles}, #{name}, #{account},#{ondate},#{offdate})
 
     </insert>
 

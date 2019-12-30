@@ -1,5 +1,5 @@
 package com.zj.dao;
-import com.zj.entity.ClientStudent;
+import com.zj.entity.ImportPer;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -13,7 +13,5 @@ import java.util.List;
 @Mapper
 public interface ClientExcelDao {
 
-    List<ClientStudent> findAll();
-
-    void save(ClientStudent student);
+    void save(ImportPer importPer);
 }

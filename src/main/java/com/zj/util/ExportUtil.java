@@ -1,6 +1,6 @@
 package com.zj.util;
 
-import com.zj.entity.ClientStudent;
+import com.zj.entity.ImportPer;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -17,35 +17,45 @@ public class ExportUtil {
      * @param pills 读取到的文本行
      * @return ClientStoreInfo
      */
-    public static ClientStudent getfilter(String pills){
+    public static ImportPer getfilter(String pills){
 
-        ClientStudent student = new ClientStudent();
+       // ClientStudent student = new ClientStudent();
+
+        ImportPer importPer = new ImportPer();
 
         String[] split = pills.split(",");
 
-        if (StringUtils.isNotBlank(split[0])){
-
-            student.setId(Integer.valueOf(split[0]));
-        }
 
         if (StringUtils.isNotBlank(split[1])){
 
-            student.setName(split[1]);
-
+            importPer.setRoles(split[1]);
         }
 
         if (StringUtils.isNotBlank(split[2])){
 
-            student.setAge(Integer.valueOf(split[2]));
+            importPer.setName(split[2]);
 
         }
 
         if (StringUtils.isNotBlank(split[3])){
 
-            student.setArre(split[3]);
+            importPer.setAccount(split[3]);
 
         }
 
-        return student;
+        if (StringUtils.isNotBlank(split[4])){
+
+            importPer.setOndate(split[4]);
+
+        }
+
+        if (StringUtils.isNotBlank(split[5])){
+
+            importPer.setOffdate(split[5]);
+
+        }
+
+
+        return importPer;
     }
 }

@@ -1,6 +1,5 @@
 package com.zj.service;
 
-import com.zj.entity.ClientStudent;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -15,5 +14,5 @@ public interface ClientExcelService {
 
     String importCsv(MultipartFile file) throws Exception;
 
-    List<ClientStudent> findAll();
+
 }

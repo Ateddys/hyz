@@ -15,6 +15,7 @@ mybatis:
   type-aliases-package: com.zj.entity
 
 
+
 #showSql
 logging:
   level:

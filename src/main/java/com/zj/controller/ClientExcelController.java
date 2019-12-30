@@ -1,6 +1,5 @@
 package com.zj.controller;
 
-import com.zj.entity.ClientStudent;
 import com.zj.service.ClientExcelService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,13 +39,6 @@ public class ClientExcelController {
         return excelService.importCsv(file);
     }
 
-    /**
-     * 测试1
-     * @return 集合对象
-     */
-    @RequestMapping("/findAll")
-    public List<ClientStudent> findAll(){
-        return excelService.findAll();
-    }
+
 
 }

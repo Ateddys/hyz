@@ -121,27 +121,41 @@ public class ReadExcel {
             for (int c = 0; c < this.totalCells; c++) {
                 Cell cell = row.getCell(c);
                 if (null != cell) {
-                    if (c == 0) {
+                    if (c == 1) {
                         // 如果是纯数字,比如你写的是25,cell.getNumericCellValue()获得是25.0,通过截取字符串去掉.0获得25
                         if (cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
-                            String name = String.valueOf(cell.getNumericCellValue());
-                            map.put("name", name.substring(0, name.length() - 2 > 0 ? name.length() - 2 : 1));// 名称
+                            String roles = String.valueOf(cell.getNumericCellValue());
+                            map.put("roles", roles.substring(0, roles.length() - 2 > 0 ? roles.length() - 2 : 1));// 角色
                         } else {
-                            map.put("name", cell.getStringCellValue());// 名称
-                        }
-                    } else if (c == 1) {
-                        if (cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
-                            String sex = String.valueOf(cell.getNumericCellValue());
-                            map.put("age",sex.substring(0, sex.length() - 2 > 0 ? sex.length() - 2 : 1));// 年龄
-                        } else {
-                            map.put("age",cell.getStringCellValue());// 年龄
+                            map.put("roles", cell.getStringCellValue());// 角色
                         }
                     } else if (c == 2) {
                         if (cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
-                            String age = String.valueOf(cell.getNumericCellValue());
-                            map.put("arre", age.substring(0, age.length() - 2 > 0 ? age.length() - 2 : 1));// 地址
+                            String name = String.valueOf(cell.getNumericCellValue());
+                            map.put("name",name.substring(0, name.length() - 2 > 0 ? name.length() - 2 : 1));// 姓名
                         } else {
-                            map.put("arre", cell.getStringCellValue());// 地址
+                            map.put("name",cell.getStringCellValue());//姓名
+                        }
+                    } else if (c == 3) {
+                        if (cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
+                            String account = String.valueOf(cell.getNumericCellValue());
+                            map.put("account", account.substring(0, account.length() - 2 > 0 ? account.length() - 2 : 1));// 联合办公账户
+                        } else {
+                            map.put("account", cell.getStringCellValue());// 联合办公账户
+                        }
+                    }else if(c==4){
+                        if (cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
+                            String ondate = String.valueOf(cell.getNumericCellValue());
+                            map.put("ondate", ondate.substring(0, ondate.length() - 2 > 0 ? ondate.length() - 2 : 1));// 值班时间
+                        } else {
+                            map.put("ondate", cell.getStringCellValue());// 值班时间
+                        }
+                    }else if(c==5){
+                        if (cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
+                            String offdate = String.valueOf(cell.getNumericCellValue());
+                            map.put("offdate", offdate.substring(0, offdate.length() - 2 > 0 ? offdate.length() - 2 : 1));// 交班时间
+                        } else {
+                            map.put("offdate", cell.getStringCellValue());// 交班时间
                         }
                     }
                 }

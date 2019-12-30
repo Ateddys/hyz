@@ -1,7 +1,7 @@
 package com.zj.service;
 
 import com.zj.dao.ClientExcelDao;
-import com.zj.entity.ClientStudent;
+import com.zj.entity.ImportPer;
 import com.zj.util.ReadExcel;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,13 +45,15 @@ public class ClientExcelServiceImpl implements ClientExcelService {
         new Thread(() -> {
 
             for (Map<String, Object> map : userList) {
-                ClientStudent student = new ClientStudent();
+                ImportPer importPer = new ImportPer();
+                importPer.setAccount(map.get("account").toString());
+                importPer.setName(map.get("name").toString());
+                importPer.setOndate(map.get("ondate").toString());
+                importPer.setRoles(map.get("roles").toString());
+                importPer.setOffdate(map.get("offdate").toString());
 
-                student.setName(map.get("name").toString());
-                student.setAge(Integer.parseInt(map.get("age").toString()));
-                student.setArre(map.get("arre").toString());
 
-                excelDao.save(student);
+                excelDao.save(importPer);
 
             }
 
@@ -73,14 +75,5 @@ public class ClientExcelServiceImpl implements ClientExcelService {
         return result + "------> 共： " + (endTime - startTime) + "ms";
     }
 
-    /**
-     * 测试1
-     *
-     * @return 集合对象
-     */
-    public List<ClientStudent> findAll() {
-        List<ClientStudent> list = excelDao.findAll();
-        System.out.println(list);
-        return list;
-    }
+
 }
