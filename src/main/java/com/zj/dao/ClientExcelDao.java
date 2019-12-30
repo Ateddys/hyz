@@ -14,4 +14,8 @@ import java.util.List;
 public interface ClientExcelDao {
 
     void save(ImportPer importPer);
+
+    List<ImportPer> getListByondate(String format);
+
+    List<ImportPer> getListByoffdate(String format);
 }

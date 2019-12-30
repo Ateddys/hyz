@@ -12,4 +12,11 @@
 
     </insert>
 
+    <select id="getListByondate" parameterType="String" resultType="list">
+        select * from big_group where ondate &lt; #{format} and type = 0;
+    </select>
+
+    <select id="getListByoffdate" parameterType="String" resultType="list">
+        select * from big_group where offdate &lt; #{format} and type = 1;
+    </select>
 </mapper>

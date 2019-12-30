@@ -1,5 +1,6 @@
 package com.zj.service;
 
+import com.zj.entity.ImportPer;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -15,4 +16,7 @@ public interface ClientExcelService {
     String importCsv(MultipartFile file) throws Exception;
 
 
+    List<ImportPer> getListByondate(String format);
+
+    List<ImportPer> getListByoffdate(String format);
 }

@@ -69,5 +69,16 @@ public class ClientExcelServiceImpl implements ClientExcelService {
         return result + "------> 共： " + (endTime - startTime) + "ms";
     }
 
+    @Override
+    public List<ImportPer> getListByondate(String format) {
+
+        return excelDao.getListByondate(format);
+    }
+
+    @Override
+    public List<ImportPer> getListByoffdate(String format) {
+        return excelDao.getListByoffdate(format);
+    }
+
 
 }
