@@ -80,5 +80,10 @@ public class ClientExcelServiceImpl implements ClientExcelService {
         return excelDao.getListByoffdate(format);
     }
 
+    @Override
+    public List<ImportPer> findAll() {
+        return excelDao.findAll();
+    }
+
 
 }

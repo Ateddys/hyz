@@ -18,4 +18,6 @@ public interface ClientExcelDao {
     List<ImportPer> getListByondate(String format);
 
     List<ImportPer> getListByoffdate(String format);
+
+    List<ImportPer> findAll();
 }

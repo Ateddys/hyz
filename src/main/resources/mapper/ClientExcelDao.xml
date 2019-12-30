@@ -19,4 +19,8 @@
     <select id="getListByoffdate" parameterType="String" resultType="list">
         select * from big_group where offdate &lt; #{format} and type = 1;
     </select>
+
+    <select id="findAll" resultType="list">
+        select * from big_group
+    </select>
 </mapper>
