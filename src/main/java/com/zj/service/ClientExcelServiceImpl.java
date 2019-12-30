@@ -38,24 +38,28 @@ public class ClientExcelServiceImpl implements ClientExcelService {
 
         ReadExcel readExcel = new ReadExcel();  //创建处理EXCEL的类
 
-        List<Map<String, Object>> userList = readExcel.getExcelInfo(file);  //解析excel，获取上传的事件单
+        List<ImportPer> userList = readExcel.getExcelInfo(file);  //解析excel，获取上传的事件单
 
         //至此已经将excel中的数据转换到list里面了,接下来就可以操作list,可以进行保存到数据库,或者其他操作,
 
         new Thread(() -> {
 
-            for (Map<String, Object> map : userList) {
+            if (userList.size() > 0){
+
+                List<ImportPer> users = userList;
+
+                users.forEach(x -> excelDao.save(x));
+            }
+
+            /*for (Map<String, Object> map : userList) {
                 ImportPer importPer = new ImportPer();
                 importPer.setAccount(map.get("account").toString());
                 importPer.setName(map.get("name").toString());
                 importPer.setOndate(map.get("ondate").toString());
                 importPer.setRoles(map.get("roles").toString());
                 importPer.setOffdate(map.get("offdate").toString());
-
-
                 excelDao.save(importPer);
-
-            }
+            }*/
 
         }).start();
 

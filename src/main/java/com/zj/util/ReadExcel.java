@@ -2,17 +2,14 @@ package com.zj.util;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
+import com.zj.entity.ImportPer;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -53,7 +50,7 @@ public class ReadExcel {
     /**
      * 读EXCEL文件，获取信息集合
      */
-    public List<Map<String, Object>> getExcelInfo(MultipartFile mFile) {
+    public List<ImportPer> getExcelInfo(MultipartFile mFile) {
         String fileName = mFile.getOriginalFilename();// 获取文件名
 //        List<Map<String, Object>> userList = new LinkedList<Map<String, Object>>();
         try {
@@ -79,7 +76,7 @@ public class ReadExcel {
      * @return
      * @throws IOException
      */
-    public List<Map<String, Object>> createExcel(InputStream is, boolean isExcel2003) {
+    public List<ImportPer> createExcel(InputStream is, boolean isExcel2003) {
         try {
             Workbook wb = null;
             if (isExcel2003) {// 当excel是2003时,创建excel2003
@@ -100,7 +97,7 @@ public class ReadExcel {
      * @param wb
      * @return
      */
-    private List<Map<String, Object>> readExcelValue(Workbook wb) {
+    private List<ImportPer> readExcelValue(Workbook wb) {
         // 得到第一个shell
         Sheet sheet = wb.getSheetAt(0);
         // 得到Excel的行数
@@ -109,7 +106,7 @@ public class ReadExcel {
         if (totalRows > 1 && sheet.getRow(0) != null) {
             this.totalCells = sheet.getRow(0).getPhysicalNumberOfCells();
         }
-        List<Map<String, Object>> userList = new ArrayList<Map<String, Object>>();
+        List<ImportPer> userList = new ArrayList<>();
         // 循环Excel行数
         for (int r = 1; r < totalRows; r++) {
             Row row = sheet.getRow(r);
@@ -117,51 +114,34 @@ public class ReadExcel {
                 continue;
             }
             // 循环Excel的列
-            Map<String, Object> map = new HashMap<String, Object>();
+            ImportPer importPer = new ImportPer();
             for (int c = 0; c < this.totalCells; c++) {
                 Cell cell = row.getCell(c);
                 if (null != cell) {
                     if (c == 1) {
-                        // 如果是纯数字,比如你写的是25,cell.getNumericCellValue()获得是25.0,通过截取字符串去掉.0获得25
-                        if (cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
-                            String roles = String.valueOf(cell.getNumericCellValue());
-                            map.put("roles", roles.substring(0, roles.length() - 2 > 0 ? roles.length() - 2 : 1));// 角色
-                        } else {
-                            map.put("roles", cell.getStringCellValue());// 角色
-                        }
-                    } else if (c == 2) {
-                        if (cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
-                            String name = String.valueOf(cell.getNumericCellValue());
-                            map.put("name",name.substring(0, name.length() - 2 > 0 ? name.length() - 2 : 1));// 姓名
-                        } else {
-                            map.put("name",cell.getStringCellValue());//姓名
-                        }
-                    } else if (c == 3) {
-                        if (cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
-                            String account = String.valueOf(cell.getNumericCellValue());
-                            map.put("account", account.substring(0, account.length() - 2 > 0 ? account.length() - 2 : 1));// 联合办公账户
-                        } else {
-                            map.put("account", cell.getStringCellValue());// 联合办公账户
-                        }
-                    }else if(c==4){
-                        if (cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
-                            String ondate = String.valueOf(cell.getNumericCellValue());
-                            map.put("ondate", ondate.substring(0, ondate.length() - 2 > 0 ? ondate.length() - 2 : 1));// 值班时间
-                        } else {
-                            map.put("ondate", cell.getStringCellValue());// 值班时间
-                        }
-                    }else if(c==5){
-                        if (cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
-                            String offdate = String.valueOf(cell.getNumericCellValue());
-                            map.put("offdate", offdate.substring(0, offdate.length() - 2 > 0 ? offdate.length() - 2 : 1));// 交班时间
-                        } else {
-                            map.put("offdate", cell.getStringCellValue());// 交班时间
+                        importPer.setRoles(cell.getStringCellValue());
+                    }
+                    if (c == 2) {
+                        importPer.setName(cell.getStringCellValue());
+                    }
+                    if (c == 3) {
+                        importPer.setAccount(cell.getStringCellValue());
+                    }
+                    if(c==4){
+                        if (DateUtil.isCellDateFormatted(cell)){
+                            importPer.setOndate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cell.getDateCellValue()));
                         }
                     }
+                    if(c==5){
+                        if (DateUtil.isCellDateFormatted(cell)){
+                            importPer.setOffdate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cell.getDateCellValue()));
+                        }
+                    }
+                    importPer.setType("0"); // 默认类型
                 }
             }
             // 添加到list
-            userList.add(map);
+            userList.add(importPer);
         }
         return userList;
     }
@@ -188,6 +168,19 @@ public class ReadExcel {
     // @描述：是否是2007的excel，返回true是2007
     public static boolean isExcel2007(String filePath) {
         return filePath.matches("^.+\\.(?i)(xlsx)$");
+    }
+
+    /**
+     * @author SHUN
+     * 生成系统日期，并将其格式化返回字符串
+     * @return
+     */
+    public String generateDate(){
+        String guarantee_date = null;
+        Date generateDate = new Date();
+        DateFormat formater = new SimpleDateFormat("yyyyMMdd");
+        guarantee_date = formater.format(generateDate);
+        return guarantee_date;
     }
 
 }
