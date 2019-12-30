@@ -2,7 +2,6 @@ package com.zj.controller;
 
 import com.zj.entity.ClientStudent;
 import com.zj.service.ClientExcelService;
-import com.zj.service.ClientExcelServiceImpl;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,12 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 
-/**
- * @author : hyz
- * @program : onecode
- * @description :
- * @date : 2019-12-27 08:39
- **/
+
 
 @RestController
 @RequestMapping("/zj")
@@ -28,7 +22,7 @@ public class ClientExcelController {
     }
 
 
-    @RequestMapping("/age")
+    @RequestMapping("/page")
     public String page(){
 
 

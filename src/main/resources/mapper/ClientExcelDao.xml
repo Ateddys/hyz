@@ -12,7 +12,7 @@
 
     <insert id="save" parameterType="com.zj.entity.ClientStudent">
 
-        INSERT INTO client_student(name, age, arre) VALUES (#{name}, #{age}, #{arre})
+        INSERT INTO client_student (name, age, arre)  VALUES (#{name}, #{age}, #{arre})
 
     </insert>
 

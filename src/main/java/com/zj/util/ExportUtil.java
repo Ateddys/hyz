@@ -4,7 +4,7 @@ import com.zj.entity.ClientStudent;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * @author : hyz
+ * @author : zj
  * @program : onecode
  * @description : 映射实体
  * @date : 2019-12-27 09:00
