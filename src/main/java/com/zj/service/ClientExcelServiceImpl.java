@@ -51,16 +51,6 @@ public class ClientExcelServiceImpl implements ClientExcelService {
                 users.forEach(x -> excelDao.save(x));
             }
 
-            /*for (Map<String, Object> map : userList) {
-                ImportPer importPer = new ImportPer();
-                importPer.setAccount(map.get("account").toString());
-                importPer.setName(map.get("name").toString());
-                importPer.setOndate(map.get("ondate").toString());
-                importPer.setRoles(map.get("roles").toString());
-                importPer.setOffdate(map.get("offdate").toString());
-                excelDao.save(importPer);
-            }*/
-
         }).start();
 
         if (userList != null && !userList.isEmpty()) {
